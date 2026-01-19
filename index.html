@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix 2026 | Rising Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+
+        /* Dark Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center bottom, 
+                rgba(20, 5, 0, 0.3) 0%, 
+                rgba(0, 0, 0, 0.7) 50%,
+                rgba(0, 0, 0, 0.95) 100%);
+            z-index: -1;
+        }
+
+        /* Canvas for Particles */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main Content */
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        /* Title */
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            letter-spacing: 15px;
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #ffd700 20%, 
+                #ff8c00 40%, 
+                #ff4500 60%, 
+                #ff0000 80%,
+                #8b0000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 69, 0, 0.4);
+            position: relative;
+            animation: title-glow 3s ease-in-out infinite alternate;
+            margin-bottom: 25px;
+        }
+
+
+
+        @keyframes title-glow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.4)); }
+            to { filter: drop-shadow(0 0 20px rgba(255, 50, 0, 0.5)); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Coming Soon */
+        .countdown-container {
+            margin-bottom: 60px;
+        }
+
+        .countdown-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 18px;
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #ffb347 30%, 
+                #ff8c00 60%, 
+                #ff6a00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            position: relative;
+            animation: amber-glow 2.5s ease-in-out infinite alternate;
+            text-shadow: 0 0 40px rgba(255, 140, 0, 0.6);
+        }
+
+        @keyframes amber-glow {
+            0% { 
+                filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.3)) 
+                        drop-shadow(0 0 15px rgba(255, 106, 0, 0.2));
+            }
+            50% {
+                filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.4)) 
+                        drop-shadow(0 0 20px rgba(255, 106, 0, 0.3));
+            }
+            100% { 
+                filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.35)) 
+                        drop-shadow(0 0 18px rgba(255, 106, 0, 0.25));
+            }
+        }
+
+        /* Notify Form */
+        .notify-section {
+            margin-bottom: 40px;
+        }
+
+        .notify-text {
+            font-size: 0.9rem;
+            color: rgba(255, 200, 150, 0.7);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .notify-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .notify-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 25px;
+            border: 1px solid rgba(255, 106, 0, 0.3);
+            border-radius: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .notify-input::placeholder {
+            color: rgba(255, 150, 100, 0.5);
+        }
+
+        .notify-input:focus {
+            border-color: #ff6a00;
+            box-shadow: 0 0 20px rgba(255, 106, 0, 0.3);
+        }
+
+        .notify-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ff6a00 0%, #ff4500 50%, #cc0000 100%);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notify-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.5);
+        }
+
+        .notify-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255, 106, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 150, 100, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            border-color: #ff6a00;
+            color: #ff6a00;
+            box-shadow: 0 0 20px rgba(255, 106, 0, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Notify Button - Glassmorphism */
+        .notify-btn-container {
+            margin-bottom: 35px;
+        }
+
+        .notify-btn-glass {
+            padding: 16px 45px;
+            background: rgba(255, 140, 0, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(205, 90, 0, 0.35);
+            border-radius: 50px;
+            color: rgba(255, 200, 150, 0.9);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(255, 100, 0, 0.1);
+        }
+
+        .notify-btn-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(205, 90, 0, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .notify-btn-glass:hover {
+            background: rgba(255, 140, 0, 0.15);
+            border-color: rgba(205, 90, 0, 0.5);
+            color: rgba(255, 220, 180, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 100, 0, 0.2);
+        }
+
+        .notify-btn-glass:hover::before {
+            left: 100%;
+        }
+
+        /* Interested State */
+        .notify-btn-glass.interested {
+            background: rgba(76, 175, 80, 0.12);
+            border-color: rgba(46, 125, 50, 0.5);
+            color: rgba(200, 255, 200, 1);
+        }
+
+        .notify-btn-glass.interested:hover {
+            background: rgba(76, 175, 80, 0.18);
+            border-color: rgba(46, 125, 50, 0.7);
+            box-shadow: 0 12px 40px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: rgba(20, 10, 5, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 106, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(255, 100, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .modal-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 200, 150, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 200, 150, 0.8);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-input {
+            padding: 15px 20px;
+            border: 1px solid rgba(255, 106, 0, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 150, 100, 0.4);
+        }
+
+        .form-input:focus {
+            border-color: #ff6a00;
+            box-shadow: 0 0 20px rgba(255, 106, 0, 0.2);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-submit {
+            background: linear-gradient(135deg, #ff6a00 0%, #ff4500 50%, #cc0000 100%);
+            color: #fff;
+        }
+
+        .modal-btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 69, 0, 0.4);
+        }
+
+        .modal-btn-cancel {
+            background: rgba(100, 100, 100, 0.3);
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(150, 150, 150, 0.3);
+        }
+
+        .modal-btn-cancel:hover {
+            background: rgba(100, 100, 100, 0.5);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 106, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 200, 150, 0.7);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 106, 0, 0.2);
+            border-color: #ff6a00;
+            color: #ff6a00;
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding-top: 60px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .title {
+                letter-spacing: 8px;
+                font-size: clamp(2.5rem, 12vw, 8rem);
+            }
+
+            .year {
+                letter-spacing: 10px;
+                margin-bottom: 20px;
+            }
+
+            .social-links {
+                gap: 20px;
+            }
+
+            .social-link {
+                width: 45px;
+                height: 45px;
+            }
+
+            .social-link svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .countdown-label {
+                font-size: 1.5rem;
+                letter-spacing: 12px;
+            }
+
+            .bottom-gradient {
+                height: 150px;
+            }
+
+            .modal-box {
+                padding: 30px 20px;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding-top: 80px;
+                padding-bottom: 60px;
+            }
+
+            .title {
+                letter-spacing: 5px;
+                margin-bottom: 20px;
+            }
+
+            .year {
+                letter-spacing: 8px;
+                margin-bottom: 40px;
+            }
+
+            .social-links {
+                gap: 15px;
+                margin-top: 30px;
+            }
+
+            .social-link {
+                width: 40px;
+                height: 40px;
+            }
+
+            .social-link svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .countdown-label {
+                font-size: 1.2rem;
+                letter-spacing: 8px;
+            }
+
+            .modal-box {
+                padding: 30px 20px;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Bottom Amber Gradient */
+        .bottom-gradient {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, 
+                rgba(255, 69, 0, 0.18) 0%, 
+                rgba(255, 100, 0, 0.10) 30%, 
+                transparent 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-fire-flames-on-a-black-background-37389-large.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Bottom Gradient -->
+    <div class="bottom-gradient"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Title -->
+        <h1 class="title">PHOENIX'26</h1>
+        
+
+        <!-- Coming Soon -->
+        <div class="countdown-container">
+            <p class="countdown-label">Coming Soon</p>
+        </div>
+
+        <!-- Mark as Interested Button -->
+        <div class="notify-btn-container">
+            <button class="notify-btn-glass" id="interestedBtn">Mark as Interested</button>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="#" class="social-link" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- Interest Modal -->
+    <div class="modal-overlay" id="interestModal">
+        <div class="modal-box">
+            <div class="modal-close" id="modalClose">&times;</div>
+            <div class="modal-header">
+                <h2 class="modal-title">Stay Updated</h2>
+                <p class="modal-subtitle">We'll notify you when Phoenix rises</p>
+            </div>
+            <form class="modal-form" id="interestForm">
+                <div class="form-group">
+                    <label class="form-label" for="userEmail">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="userEmail" 
+                        class="form-input" 
+                        placeholder="your@email.com"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="userWhatsapp">WhatsApp Number</label>
+                    <input 
+                        type="tel" 
+                        id="userWhatsapp" 
+                        class="form-input" 
+                        placeholder="+1 234 567 8900"
+                        required
+                    >
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="modal-btn modal-btn-cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="modal-btn modal-btn-submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Particle System
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 4 + 1;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.opacity = Math.random() * 0.8 + 0.2;
+                this.color = this.getFireColor();
+                this.life = 0;
+                this.maxLife = Math.random() * 200 + 100;
+            }
+
+            getFireColor() {
+                const colors = [
+                    'rgba(255, 69, 0,',    // Orange Red
+                    'rgba(255, 140, 0,',   // Dark Orange
+                    'rgba(255, 165, 0,',   // Orange
+                    'rgba(255, 200, 0,',   // Gold
+                    'rgba(255, 50, 50,',   // Red
+                    'rgba(255, 100, 50,',  // Fire
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX + Math.sin(this.life * 0.05) * 0.5;
+                this.life++;
+                
+                // Fade out as particle rises
+                this.opacity = Math.max(0, this.opacity - 0.003);
+                this.size = Math.max(0.5, this.size - 0.01);
+
+                if (this.y < -10 || this.opacity <= 0 || this.life > this.maxLife) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + this.opacity + ')';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color + '0.8)';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        // Create particles
+        const particles = [];
+        
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        // Spread out initial positions
+        particles.forEach(p => {
+            p.y = Math.random() * canvas.height;
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Modal and Interest Button Logic
+        const interestedBtn = document.getElementById('interestedBtn');
+        const interestModal = document.getElementById('interestModal');
+        const modalClose = document.getElementById('modalClose');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const interestForm = document.getElementById('interestForm');
+        let isInterested = false;
+
+        // Open modal
+        interestedBtn.addEventListener('click', () => {
+            if (!isInterested) {
+                interestModal.classList.add('active');
+            } else {
+                // Toggle off if already interested
+                isInterested = false;
+                interestedBtn.textContent = 'Mark as Interested';
+                interestedBtn.classList.remove('interested');
+            }
+        });
+
+        // Close modal functions
+        const closeModal = () => {
+            interestModal.classList.remove('active');
+            interestForm.reset();
+        };
+
+        modalClose.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside
+        interestModal.addEventListener('click', (e) => {
+            if (e.target === interestModal) {
+                closeModal();
+            }
+        });
+
+        // Handle form submission
+        interestForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('userEmail').value;
+            const whatsapp = document.getElementById('userWhatsapp').value;
+            
+            // Here you would typically send this data to your backend
+            console.log('User interested:', { email, whatsapp });
+            
+            // Update button state
+            isInterested = true;
+            interestedBtn.textContent = 'Marked as Interested ✓';
+            interestedBtn.classList.add('interested');
+            
+            // Close modal
+            closeModal();
+        });
+
+        // Mouse interaction - particles follow cursor
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Create burst of particles near cursor occasionally
+            if (Math.random() > 0.92) {
+                const p = new Particle();
+                p.x = mouseX + (Math.random() - 0.5) * 50;
+                p.y = mouseY + (Math.random() - 0.5) * 50;
+                p.speedY = Math.random() * 3 + 2;
+                particles.push(p);
+                
+                // Keep particle count manageable
+                if (particles.length > 150) {
+                    particles.shift();
+                }
+            }
+        });
+
+        // Audio visualizer effect on title (subtle pulse)
+        let pulseIntensity = 0;
+        setInterval(() => {
+            pulseIntensity = Math.random() * 0.3 + 0.7;
+            document.querySelector('.title').style.opacity = pulseIntensity;
+        }, 100);
+    </script>
+</body>
+</html>
