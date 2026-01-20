@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Recaps | Watch Previous Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background: #000;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+
+        /* Dark Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center bottom, 
+                rgba(20, 5, 0, 0.3) 0%, 
+                rgba(0, 0, 0, 0.7) 50%,
+                rgba(0, 0, 0, 0.95) 100%);
+            z-index: -1;
+        }
+
+        /* Canvas for Particles */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            padding: 12px 30px;
+            background: rgba(255, 140, 0, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(205, 90, 0, 0.35);
+            border-radius: 50px;
+            color: rgba(255, 200, 150, 0.9);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            z-index: 100;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 140, 0, 0.15);
+            border-color: rgba(205, 90, 0, 0.5);
+            transform: translateX(-5px);
+        }
+
+        /* Content Container */
+        .content {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        /* Page Title */
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-align: center;
+            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: title-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes title-glow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.4)); }
+            to { filter: drop-shadow(0 0 20px rgba(255, 50, 0, 0.5)); }
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: rgba(255, 200, 150, 0.7);
+            letter-spacing: 2px;
+            margin-bottom: 60px;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .recap-card {
+            position: relative;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, rgba(40, 20, 10, 0.95) 0%, rgba(60, 30, 15, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 106, 0, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 32px rgba(255, 69, 0, 0.2);
+        }
+
+        .recap-card:hover {
+            border-color: rgba(255, 106, 0, 0.7);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 69, 0, 0.4);
+        }
+
+        .recap-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(135deg, rgba(255, 69, 0, 0.05) 0%, rgba(255, 140, 0, 0.03) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .recap-card:hover .recap-card-overlay {
+            background: linear-gradient(135deg, rgba(255, 69, 0, 0.15) 0%, rgba(255, 140, 0, 0.08) 100%);
+        }
+
+        .recap-play-icon {
+            font-size: 3.5rem;
+            color: rgba(255, 140, 0, 0.9);
+            filter: drop-shadow(0 0 20px rgba(255, 106, 0, 0.8));
+            transition: transform 0.3s ease;
+        }
+
+        .recap-card:hover .recap-play-icon {
+            transform: scale(1.2);
+        }
+
+        .recap-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 50%, transparent 100%);
+            z-index: 2;
+        }
+
+        .recap-year {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .recap-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: rgba(255, 200, 150, 0.8);
+            letter-spacing: 2px;
+        }
+
+        /* Video Player Modal */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .video-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border: 2px solid rgba(255, 106, 0, 0.5);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(255, 69, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .video-modal.active .video-container {
+            transform: scale(1);
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-close {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 106, 0, 0.2);
+            border: 2px solid rgba(255, 106, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 200, 150, 0.9);
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .video-close:hover {
+            background: rgba(255, 106, 0, 0.4);
+            border-color: #ff6a00;
+            color: #fff;
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .video-title {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .back-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.75rem;
+            }
+
+            .content {
+                padding: 100px 20px 60px;
+            }
+
+            .page-title {
+                letter-spacing: 4px;
+                margin-bottom: 15px;
+            }
+
+            .page-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 40px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .recap-year {
+                font-size: 2rem;
+            }
+
+            .recap-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .recap-play-icon {
+                font-size: 3.5rem;
+            }
+
+            .video-container {
+                width: 95%;
+            }
+
+            .video-close,
+            .video-title {
+                top: -50px;
+            }
+
+            .video-title {
+                font-size: 1.1rem;
+            }
+
+            .video-close {
+                width: 45px;
+                height: 45px;
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-button {
+                padding: 8px 16px;
+                font-size: 0.7rem;
+            }
+
+            .page-title {
+                letter-spacing: 2px;
+            }
+
+            .recap-card-content {
+                padding: 20px;
+            }
+
+            .recap-year {
+                font-size: 1.8rem;
+            }
+
+            .recap-play-icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-fire-flames-on-a-black-background-37389-large.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <span>←</span>
+        <span>Back</span>
+    </a>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1 class="page-title">PHOENIX RECAPS</h1>
+        <p class="page-subtitle">Relive The Moments</p>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid">
+            <div class="recap-card" data-video="https://www.youtube.com/embed/DNaPZY6aCLY?autoplay=1" data-year="2025">
+                <div class="recap-card-overlay">
+                    <div class="recap-play-icon">▶</div>
+                </div>
+                <div class="recap-card-content">
+                    <div class="recap-year">2025</div>
+                </div>
+            </div>
+
+            <div class="recap-card" data-video="YOUR_2024_VIDEO_URL" data-year="2024">
+                <div class="recap-card-overlay">
+                    <div class="recap-play-icon">▶</div>
+                </div>
+                <div class="recap-card-content">
+                    <div class="recap-year">2024</div>
+                </div>
+            </div>
+
+            <div class="recap-card" data-video="YOUR_2023_VIDEO_URL" data-year="2023">
+                <div class="recap-card-overlay">
+                    <div class="recap-play-icon">▶</div>
+                </div>
+                <div class="recap-card-content">
+                    <div class="recap-year">2023</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-container">
+            <div class="video-title" id="videoTitle">Phoenix 2025 Highlights</div>
+            <div class="video-close" id="videoClose">&times;</div>
+            <iframe id="videoPlayer" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Particle System (same as main page)
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 4 + 1;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.opacity = Math.random() * 0.8 + 0.2;
+                this.color = this.getFireColor();
+                this.life = 0;
+                this.maxLife = Math.random() * 200 + 100;
+            }
+
+            getFireColor() {
+                const colors = [
+                    'rgba(255, 69, 0,',
+                    'rgba(255, 140, 0,',
+                    'rgba(255, 165, 0,',
+                    'rgba(255, 200, 0,',
+                    'rgba(255, 50, 50,',
+                    'rgba(255, 100, 50,',
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX + Math.sin(this.life * 0.05) * 0.5;
+                this.life++;
+                
+                this.opacity = Math.max(0, this.opacity - 0.003);
+                this.size = Math.max(0.5, this.size - 0.01);
+
+                if (this.y < -10 || this.opacity <= 0 || this.life > this.maxLife) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + this.opacity + ')';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color + '0.8)';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        particles.forEach(p => {
+            p.y = Math.random() * canvas.height;
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Video Modal Functionality
+        const videoModal = document.getElementById('videoModal');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoClose = document.getElementById('videoClose');
+        const videoTitle = document.getElementById('videoTitle');
+        const recapCards = document.querySelectorAll('.recap-card');
+
+        recapCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const videoUrl = card.getAttribute('data-video');
+                const year = card.getAttribute('data-year');
+
+                if (videoUrl && videoUrl !== 'YOUR_2024_VIDEO_URL' && videoUrl !== 'YOUR_2023_VIDEO_URL') {
+                    videoTitle.textContent = `Phoenix ${year} Highlights`;
+                    videoPlayer.src = videoUrl;
+                    videoModal.classList.add('active');
+                } else {
+                    alert('Video coming soon!');
+                }
+            });
+        });
+
+        const closeVideo = () => {
+            videoModal.classList.remove('active');
+            videoPlayer.src = '';
+        };
+
+        videoClose.addEventListener('click', closeVideo);
+
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeVideo();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+                closeVideo();
+            }
+        });
+
+        // Mouse particle interaction
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.92) {
+                const p = new Particle();
+                p.x = e.clientX + (Math.random() - 0.5) * 50;
+                p.y = e.clientY + (Math.random() - 0.5) * 50;
+                p.speedY = Math.random() * 3 + 2;
+                particles.push(p);
+                
+                if (particles.length > 150) {
+                    particles.shift();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -332,6 +332,47 @@
             box-shadow: 0 12px 40px rgba(76, 175, 80, 0.3);
         }
 
+        /* Watch Recaps Button Container */
+        .watch-recaps-container {
+            margin-bottom: 35px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .watch-recaps-btn {
+            padding: 12px 35px;
+            background: rgba(255, 140, 0, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(205, 90, 0, 0.35);
+            border-radius: 50px;
+            color: rgba(255, 200, 150, 0.9);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 32px rgba(255, 100, 0, 0.1);
+        }
+
+        .watch-recaps-btn:hover {
+            background: rgba(255, 140, 0, 0.15);
+            border-color: rgba(205, 90, 0, 0.5);
+            color: rgba(255, 220, 180, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 100, 0, 0.2);
+        }
+
+        .watch-recaps-btn .play-icon {
+            font-size: 0.9rem;
+        }
+
         /* Modal Styles */
         .modal-overlay {
             position: fixed;
@@ -621,6 +662,490 @@
             pointer-events: none;
             z-index: 5;
         }
+
+        /* Watch Recaps Button Container */
+        .watch-recaps-container {
+            margin-bottom: 35px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .watch-recaps-btn {
+            padding: 12px 35px;
+            background: rgba(255, 140, 0, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(205, 90, 0, 0.35);
+            border-radius: 50px;
+            color: rgba(255, 200, 150, 0.9);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 32px rgba(255, 100, 0, 0.1);
+        }
+
+        .watch-recaps-btn:hover {
+            background: rgba(255, 140, 0, 0.15);
+            border-color: rgba(205, 90, 0, 0.5);
+            color: rgba(255, 220, 180, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 100, 0, 0.2);
+        }
+
+        .watch-recaps-btn .play-icon {
+            font-size: 0.9rem;
+        }
+
+        /* Video Modal */
+        .video-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .video-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Gallery Container */
+        .gallery-container {
+            width: 90%;
+            max-width: 1200px;
+            max-height: 85vh;
+            background: rgba(20, 10, 5, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 106, 0, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            overflow-y: auto;
+            box-shadow: 0 0 60px rgba(255, 69, 0, 0.4);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .video-modal-overlay.active .gallery-container {
+            transform: scale(1);
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .gallery-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gallery-close {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 106, 0, 0.2);
+            border: 2px solid rgba(255, 106, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 200, 150, 0.9);
+            font-size: 2rem;
+            line-height: 1;
+            font-weight: 300;
+        }
+
+        .gallery-close:hover {
+            background: rgba(255, 106, 0, 0.4);
+            border-color: #ff6a00;
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .recap-card {
+            position: relative;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, rgba(40, 20, 10, 0.95) 0%, rgba(60, 30, 15, 0.95) 100%);
+            border: 2px solid rgba(255, 106, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(255, 69, 0, 0.2);
+        }
+
+        .recap-card:hover {
+            border-color: rgba(255, 106, 0, 0.7);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 69, 0, 0.4);
+        }
+
+        .recap-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 69, 0, 0.1) 0%, rgba(255, 140, 0, 0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .recap-card:hover .recap-card-overlay {
+            opacity: 1;
+        }
+
+        .recap-play-icon {
+            font-size: 4rem;
+            color: rgba(255, 140, 0, 0.9);
+            filter: drop-shadow(0 0 15px rgba(255, 106, 0, 0.8));
+            transition: transform 0.3s ease;
+        }
+
+        .recap-card:hover .recap-play-icon {
+            transform: scale(1.2);
+        }
+
+        .recap-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 25px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+        }
+
+        .recap-year {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .recap-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: rgba(255, 200, 150, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .video-modal-container {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            aspect-ratio: 16/9;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 106, 0, 0.5);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(255, 69, 0, 0.4);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .video-modal-overlay.active .video-modal-container {
+            transform: scale(1);
+        }
+
+        .video-modal-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .video-modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 106, 0, 0.2);
+            border: 2px solid rgba(255, 106, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 200, 150, 0.9);
+            font-size: 1.8rem;
+            line-height: 1;
+            font-weight: 300;
+        }
+
+        .video-modal-close:hover {
+            background: rgba(255, 106, 0, 0.4);
+            border-color: #ff6a00;
+            color: #fff;
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .video-modal-title {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .watch-recaps-btn {
+                padding: 10px 28px;
+                font-size: 0.75rem;
+                letter-spacing: 1.5px;
+            }
+
+            .watch-recaps-btn .play-icon {
+                font-size: 0.8rem;
+            }
+
+            .video-modal-container {
+                width: 95%;
+            }
+
+            .video-modal-close,
+            .video-modal-title {
+                top: -45px;
+            }
+
+            .video-modal-title {
+                font-size: 1.1rem;
+                letter-spacing: 2px;
+            }
+
+            .video-modal-close {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .gallery-container {
+                width: 95%;
+                padding: 25px 20px;
+                max-height: 90vh;
+            }
+
+            .gallery-header {
+                margin-bottom: 25px;
+            }
+
+            .gallery-title {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+
+            .gallery-close {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .recap-year {
+                font-size: 1.5rem;
+            }
+
+            .recap-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .watch-recaps-btn {
+                padding: 10px 28px;
+                font-size: 0.75rem;
+                letter-spacing: 1.5px;
+            }
+
+            .watch-recaps-btn .play-icon {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding-top: 80px;
+                padding-bottom: 60px;
+            }
+
+            .title {
+                letter-spacing: 5px;
+                margin-bottom: 20px;
+            }
+
+            .year {
+                letter-spacing: 8px;
+                margin-bottom: 40px;
+            }
+
+            .social-links {
+                gap: 15px;
+                margin-top: 30px;
+            }
+
+            .social-link {
+                width: 40px;
+                height: 40px;
+            }
+
+            .social-link svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .countdown-label {
+                font-size: 1.2rem;
+                letter-spacing: 8px;
+            }
+
+            .watch-recaps-btn {
+                padding: 8px 24px;
+                font-size: 0.7rem;
+            }
+
+            .watch-recaps-btn .play-icon {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Success Notification */
+        .success-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 140, 0, 0.5);
+            border-radius: 20px;
+            padding: 40px 60px;
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 50px rgba(255, 69, 0, 0.3),
+                        inset 0 0 30px rgba(255, 140, 0, 0.1);
+            text-align: center;
+        }
+
+        .success-notification.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: successPulse 1s ease-in-out;
+            color: #00ff00;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .success-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(180deg, 
+                #fff 0%, 
+                #ffd700 30%, 
+                #ff8c00 60%, 
+                #ff4500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        @keyframes successPulse {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .success-notification {
+                padding: 30px 40px;
+                border-radius: 15px;
+                max-width: 90%;
+            }
+
+            .success-icon {
+                font-size: 3rem;
+            }
+
+            .success-title {
+                font-size: 1.5rem;
+            }
+
+            .success-message {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -648,17 +1173,25 @@
 
         <!-- Coming Soon -->
         <div class="countdown-container">
-            <p class="countdown-label">Coming Soon</p>
+            <p class="countdown-label">Rising Soon</p>
         </div>
 
         <!-- Mark as Interested Button -->
         <div class="notify-btn-container">
-            <button class="notify-btn-glass" id="interestedBtn">Mark as Interested</button>
+            <button class="notify-btn-glass" id="interestedBtn">Join The Waitlist</button>
+        </div>
+
+        <!-- Watch Recaps Button -->
+        <div class="watch-recaps-container">
+            <a href="recaps.html" class="watch-recaps-btn">
+                <span class="play-icon">▶</span>
+                <span>Watch Recaps</span>
+            </a>
         </div>
 
         <!-- Social Links -->
         <div class="social-links">
-            <a href="#" class="social-link" aria-label="Instagram">
+            <a href="https://www.instagram.com/phnx.fiem/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
                 <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </a>
             <a href="#" class="social-link" aria-label="Twitter">
@@ -667,9 +1200,77 @@
             <a href="#" class="social-link" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
-            <a href="#" class="social-link" aria-label="Facebook">
+            <a href="https://www.facebook.com/phnx.fiem" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
                 <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div class="success-notification" id="successNotification">
+        <div class="success-icon">✓</div>
+        <div class="success-title">SUCCESS!</div>
+        <div class="success-message">Thank you for your interest!<br>We'll notify you when Phoenix rises.</div>
+    </div>
+
+    <!-- Video Gallery Modal -->
+    <div class="video-modal-overlay" id="videoGallery">
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <div class="gallery-title">Phoenix Recaps</div>
+                <div class="gallery-close" id="galleryClose">&times;</div>
+            </div>
+            <div class="gallery-grid">
+                <!-- Add more recap cards as needed -->
+                <div class="recap-card" data-video="https://www.youtube.com/embed/DNaPZY6aCLY?autoplay=1" data-year="2025">
+                    <div class="recap-card-overlay">
+                        <div class="recap-play-icon">▶</div>
+                    </div>
+                    <div class="recap-card-content">
+                        <div class="recap-year">2025</div>
+                        <div class="recap-subtitle">Phoenix Rises</div>
+                    </div>
+                </div>
+                
+                <div class="recap-card" data-video="YOUR_2024_VIDEO_URL" data-year="2024">
+                    <div class="recap-card-overlay">
+                        <div class="recap-play-icon">▶</div>
+                    </div>
+                    <div class="recap-card-content">
+                        <div class="recap-year">2024</div>
+                        <div class="recap-subtitle">The Journey</div>
+                    </div>
+                </div>
+                
+                <div class="recap-card" data-video="YOUR_2023_VIDEO_URL" data-year="2023">
+                    <div class="recap-card-overlay">
+                        <div class="recap-play-icon">▶</div>
+                    </div>
+                    <div class="recap-card-content">
+                        <div class="recap-year">2023</div>
+                        <div class="recap-subtitle">Beginnings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Individual Video Player Modal -->
+    <div class="video-modal-overlay" id="videoPlayer">
+        <div class="video-modal-container">
+            <div class="video-modal-title" id="videoTitle">Phoenix 2025 Highlights</div>
+            <div class="video-modal-close" id="videoPlayerClose">&times;</div>
+            <iframe 
+                id="modalVideo" 
+                width="100%" 
+                height="100%" 
+                src="" 
+                title="Phoenix Recap" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen
+                style="border: none;">
+            </iframe>
         </div>
     </div>
 
@@ -681,6 +1282,7 @@
                 <h2 class="modal-title">Stay Updated</h2>
                 <p class="modal-subtitle">We'll notify you when Phoenix rises</p>
             </div>
+            <div id="modalMessage" style="display: none; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; letter-spacing: 1px;"></div>
             <form class="modal-form" id="interestForm">
                 <div class="form-group">
                     <label class="form-label" for="userEmail">Email Address</label>
@@ -837,23 +1439,76 @@
             }
         });
 
+        // Function to show message in modal
+        function showModalMessage(message, isError = false) {
+            const messageDiv = document.getElementById('modalMessage');
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block';
+            messageDiv.style.backgroundColor = isError ? 'rgba(220, 53, 69, 0.2)' : 'rgba(40, 167, 69, 0.2)';
+            messageDiv.style.border = isError ? '1px solid rgba(220, 53, 69, 0.5)' : '1px solid rgba(40, 167, 69, 0.5)';
+            messageDiv.style.color = isError ? 'rgba(255, 180, 180, 0.9)' : 'rgba(200, 255, 200, 0.9)';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
         // Handle form submission
-        interestForm.addEventListener('submit', (e) => {
+        interestForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const email = document.getElementById('userEmail').value;
             const whatsapp = document.getElementById('userWhatsapp').value;
+            const submitBtn = interestForm.querySelector('button[type="submit"]');
+            const messageDiv = document.getElementById('modalMessage');
             
-            // Here you would typically send this data to your backend
-            console.log('User interested:', { email, whatsapp });
+            // Hide any previous message
+            messageDiv.style.display = 'none';
             
-            // Update button state
-            isInterested = true;
-            interestedBtn.textContent = 'Marked as Interested ✓';
-            interestedBtn.classList.add('interested');
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
             
-            // Close modal
-            closeModal();
+            try {
+                // Send data to backend
+                const apiUrl = window.location.port === '5500' 
+                    ? 'http://localhost:3000/api/interested' 
+                    : '/api/interested';
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, whatsapp })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show success message in modal
+                    showModalMessage(data.message || 'Thank you for your interest! We\'ll notify you when Phoenix rises.', false);
+                    
+                    // Update button state
+                    isInterested = true;
+                    interestedBtn.textContent = 'Marked as Interested ✓';
+                    interestedBtn.classList.add('interested');
+                    
+                    // Close modal after showing success message
+                    setTimeout(() => {
+                        closeModal();
+                    }, 2000);
+                } else {
+                    // Show error message in modal
+                    showModalMessage(data.message || 'An error occurred. Please try again.', true);
+                }
+            } catch (error) {
+                showModalMessage('Network error. Please check your connection and try again.', true);
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit';
+            }
         });
 
         // Mouse interaction - particles follow cursor
@@ -885,6 +1540,78 @@
             pulseIntensity = Math.random() * 0.3 + 0.7;
             document.querySelector('.title').style.opacity = pulseIntensity;
         }, 100);
+
+        // Video Gallery Functionality
+        const videoThumbnail = document.getElementById('videoThumbnail');
+        const videoGallery = document.getElementById('videoGallery');
+        const galleryClose = document.getElementById('galleryClose');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoPlayerClose = document.getElementById('videoPlayerClose');
+        const modalVideo = document.getElementById('modalVideo');
+        const videoTitle = document.getElementById('videoTitle');
+
+        // Open gallery
+        videoThumbnail.addEventListener('click', () => {
+            videoGallery.classList.add('active');
+        });
+
+        // Close gallery
+        const closeGallery = () => {
+            videoGallery.classList.remove('active');
+        };
+
+        galleryClose.addEventListener('click', closeGallery);
+
+        // Close gallery when clicking outside
+        videoGallery.addEventListener('click', (e) => {
+            if (e.target === videoGallery) {
+                closeGallery();
+            }
+        });
+
+        // Handle recap card clicks
+        document.querySelectorAll('.recap-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const videoUrl = card.getAttribute('data-video');
+                const year = card.getAttribute('data-year');
+                
+                if (videoUrl && videoUrl !== 'YOUR_2024_VIDEO_URL' && videoUrl !== 'YOUR_2023_VIDEO_URL') {
+                    videoTitle.textContent = `Phoenix ${year} Highlights`;
+                    modalVideo.src = videoUrl;
+                    videoGallery.classList.remove('active');
+                    videoPlayer.classList.add('active');
+                } else {
+                    alert('Video coming soon!');
+                }
+            });
+        });
+
+        // Close video player
+        const closeVideoPlayer = () => {
+            videoPlayer.classList.remove('active');
+            modalVideo.src = '';
+            videoGallery.classList.add('active');
+        };
+
+        videoPlayerClose.addEventListener('click', closeVideoPlayer);
+
+        // Close video player when clicking outside
+        videoPlayer.addEventListener('click', (e) => {
+            if (e.target === videoPlayer) {
+                closeVideoPlayer();
+            }
+        });
+
+        // Close with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (videoPlayer.classList.contains('active')) {
+                    closeVideoPlayer();
+                } else if (videoGallery.classList.contains('active')) {
+                    closeGallery();
+                }
+            }
+        });
     </script>
 </body>
 </html>
