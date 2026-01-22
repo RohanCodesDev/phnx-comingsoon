@@ -704,6 +704,50 @@
             font-size: 0.9rem;
         }
 
+        /* Archive Link */
+        .archive-link-container {
+            margin-top: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .archive-link-text {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: rgba(255, 200, 150, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .archive-link {
+            color: rgba(255, 140, 0, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .archive-link:hover {
+            color: rgba(255, 180, 0, 1);
+            text-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .archive-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.8), transparent);
+            transition: width 0.3s ease;
+        }
+
+        .archive-link:hover::after {
+            width: 100%;
+        }
+
         /* Video Modal */
         .video-modal-overlay {
             position: fixed;
@@ -1009,6 +1053,11 @@
                 <span class="play-icon">▶</span>
                 <span>Watch Recaps</span>
             </button>
+        </div>
+
+        <!-- Archive Link -->
+        <div class="archive-link-container">
+            <p class="archive-link-text">Or explore <a href="https://phoenix2025.com" target="_blank" rel="noopener noreferrer" class="archive-link">Phoenix 2025 →</a></p>
         </div>
 
         <!-- Social Links -->
