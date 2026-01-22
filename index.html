@@ -727,150 +727,6 @@
             opacity: 1;
         }
 
-        /* Gallery Container */
-        .gallery-container {
-            width: 90%;
-            max-width: 1200px;
-            max-height: 85vh;
-            background: rgba(20, 10, 5, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 106, 0, 0.4);
-            border-radius: 20px;
-            padding: 40px;
-            overflow-y: auto;
-            box-shadow: 0 0 60px rgba(255, 69, 0, 0.4);
-            transform: scale(0.9);
-            transition: transform 0.4s ease;
-        }
-
-        .video-modal-overlay.active .gallery-container {
-            transform: scale(1);
-        }
-
-        .gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .gallery-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .gallery-close {
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 106, 0, 0.2);
-            border: 2px solid rgba(255, 106, 0, 0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: rgba(255, 200, 150, 0.9);
-            font-size: 2rem;
-            line-height: 1;
-            font-weight: 300;
-        }
-
-        .gallery-close:hover {
-            background: rgba(255, 106, 0, 0.4);
-            border-color: #ff6a00;
-            color: #fff;
-            transform: rotate(90deg);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .recap-card {
-            position: relative;
-            aspect-ratio: 16/10;
-            background: linear-gradient(135deg, rgba(40, 20, 10, 0.95) 0%, rgba(60, 30, 15, 0.95) 100%);
-            border: 2px solid rgba(255, 106, 0, 0.3);
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 5px 20px rgba(255, 69, 0, 0.2);
-        }
-
-        .recap-card:hover {
-            border-color: rgba(255, 106, 0, 0.7);
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(255, 69, 0, 0.4);
-        }
-
-        .recap-card-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255, 69, 0, 0.1) 0%, rgba(255, 140, 0, 0.05) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .recap-card:hover .recap-card-overlay {
-            opacity: 1;
-        }
-
-        .recap-play-icon {
-            font-size: 4rem;
-            color: rgba(255, 140, 0, 0.9);
-            filter: drop-shadow(0 0 15px rgba(255, 106, 0, 0.8));
-            transition: transform 0.3s ease;
-        }
-
-        .recap-card:hover .recap-play-icon {
-            transform: scale(1.2);
-        }
-
-        .recap-card-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 25px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
-        }
-
-        .recap-year {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            background: linear-gradient(180deg, #fff 0%, #ff8c00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 5px;
-        }
-
-        .recap-subtitle {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: rgba(255, 200, 150, 0.7);
-            letter-spacing: 1px;
-        }
-
         .video-modal-container {
             position: relative;
             width: 90%;
@@ -966,40 +822,6 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1.5rem;
-            }
-
-            .gallery-container {
-                width: 95%;
-                padding: 25px 20px;
-                max-height: 90vh;
-            }
-
-            .gallery-header {
-                margin-bottom: 25px;
-            }
-
-            .gallery-title {
-                font-size: 1.8rem;
-                letter-spacing: 2px;
-            }
-
-            .gallery-close {
-                width: 40px;
-                height: 40px;
-                font-size: 1.5rem;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .recap-year {
-                font-size: 1.5rem;
-            }
-
-            .recap-subtitle {
-                font-size: 0.8rem;
             }
 
             .watch-recaps-btn {
@@ -1183,10 +1005,10 @@
 
         <!-- Watch Recaps Button -->
         <div class="watch-recaps-container">
-            <a href="recaps.html" class="watch-recaps-btn">
+            <button class="watch-recaps-btn" id="watchRecapsBtn">
                 <span class="play-icon">▶</span>
                 <span>Watch Recaps</span>
-            </a>
+            </button>
         </div>
 
         <!-- Social Links -->
@@ -1213,49 +1035,7 @@
         <div class="success-message">Thank you for your interest!<br>We'll notify you when Phoenix rises.</div>
     </div>
 
-    <!-- Video Gallery Modal -->
-    <div class="video-modal-overlay" id="videoGallery">
-        <div class="gallery-container">
-            <div class="gallery-header">
-                <div class="gallery-title">Phoenix Recaps</div>
-                <div class="gallery-close" id="galleryClose">&times;</div>
-            </div>
-            <div class="gallery-grid">
-                <!-- Add more recap cards as needed -->
-                <div class="recap-card" data-video="https://www.youtube.com/embed/DNaPZY6aCLY?autoplay=1" data-year="2025">
-                    <div class="recap-card-overlay">
-                        <div class="recap-play-icon">▶</div>
-                    </div>
-                    <div class="recap-card-content">
-                        <div class="recap-year">2025</div>
-                        <div class="recap-subtitle">Phoenix Rises</div>
-                    </div>
-                </div>
-                
-                <div class="recap-card" data-video="YOUR_2024_VIDEO_URL" data-year="2024">
-                    <div class="recap-card-overlay">
-                        <div class="recap-play-icon">▶</div>
-                    </div>
-                    <div class="recap-card-content">
-                        <div class="recap-year">2024</div>
-                        <div class="recap-subtitle">The Journey</div>
-                    </div>
-                </div>
-                
-                <div class="recap-card" data-video="YOUR_2023_VIDEO_URL" data-year="2023">
-                    <div class="recap-card-overlay">
-                        <div class="recap-play-icon">▶</div>
-                    </div>
-                    <div class="recap-card-content">
-                        <div class="recap-year">2023</div>
-                        <div class="recap-subtitle">Beginnings</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Individual Video Player Modal -->
+    <!-- Video Player Modal -->
     <div class="video-modal-overlay" id="videoPlayer">
         <div class="video-modal-container">
             <div class="video-modal-title" id="videoTitle">Phoenix 2025 Highlights</div>
@@ -1538,56 +1318,24 @@
             document.querySelector('.title').style.opacity = pulseIntensity;
         }, 100);
 
-        // Video Gallery Functionality
-        const videoThumbnail = document.getElementById('videoThumbnail');
-        const videoGallery = document.getElementById('videoGallery');
-        const galleryClose = document.getElementById('galleryClose');
+        // Watch Recaps Video Functionality
+        const watchRecapsBtn = document.getElementById('watchRecapsBtn');
         const videoPlayer = document.getElementById('videoPlayer');
         const videoPlayerClose = document.getElementById('videoPlayerClose');
         const modalVideo = document.getElementById('modalVideo');
         const videoTitle = document.getElementById('videoTitle');
 
-        // Open gallery
-        videoThumbnail.addEventListener('click', () => {
-            videoGallery.classList.add('active');
-        });
-
-        // Close gallery
-        const closeGallery = () => {
-            videoGallery.classList.remove('active');
-        };
-
-        galleryClose.addEventListener('click', closeGallery);
-
-        // Close gallery when clicking outside
-        videoGallery.addEventListener('click', (e) => {
-            if (e.target === videoGallery) {
-                closeGallery();
-            }
-        });
-
-        // Handle recap card clicks
-        document.querySelectorAll('.recap-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const videoUrl = card.getAttribute('data-video');
-                const year = card.getAttribute('data-year');
-                
-                if (videoUrl && videoUrl !== 'YOUR_2024_VIDEO_URL' && videoUrl !== 'YOUR_2023_VIDEO_URL') {
-                    videoTitle.textContent = `Phoenix ${year} Highlights`;
-                    modalVideo.src = videoUrl;
-                    videoGallery.classList.remove('active');
-                    videoPlayer.classList.add('active');
-                } else {
-                    alert('Video coming soon!');
-                }
-            });
+        // Open video player directly
+        watchRecapsBtn.addEventListener('click', () => {
+            videoTitle.textContent = 'Phoenix 2025 Highlights';
+            modalVideo.src = 'https://www.youtube.com/embed/DNaPZY6aCLY?autoplay=1&rel=0&modestbranding=1';
+            videoPlayer.classList.add('active');
         });
 
         // Close video player
         const closeVideoPlayer = () => {
             videoPlayer.classList.remove('active');
             modalVideo.src = '';
-            videoGallery.classList.add('active');
         };
 
         videoPlayerClose.addEventListener('click', closeVideoPlayer);
@@ -1601,12 +1349,8 @@
 
         // Close with Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (videoPlayer.classList.contains('active')) {
-                    closeVideoPlayer();
-                } else if (videoGallery.classList.contains('active')) {
-                    closeGallery();
-                }
+            if (e.key === 'Escape' && videoPlayer.classList.contains('active')) {
+                closeVideoPlayer();
             }
         });
     </script>
